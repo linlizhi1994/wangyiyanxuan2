@@ -6,7 +6,7 @@
           <h2>网易严选</h2>
            <span class="iconfont icon-search searchImage" ></span>
           <input/>
-          <a class="login">登录</a>
+          <a class="login">{{users._id?'已登录':'登录'}}</a>
         </header>
       </div>
       <div class="nav_wrap">
@@ -361,6 +361,7 @@
   import "swiper/dist/css/swiper.min.css"
   import Swiper from "swiper"
 
+
   import {mapState} from 'vuex'
     export default {
           name: "shouye",
@@ -391,7 +392,7 @@
         })
       },
       computed:{
-        ...mapState(['lunbotuList','lunbotuUpData'])
+        ...mapState(['lunbotuList','lunbotuUpData','users'])
       },
 
       watch:{

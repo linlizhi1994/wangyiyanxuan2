@@ -26,7 +26,7 @@ export const reqMsgLogin=(phone,code) => ajax(BASE+"/login_sms",{phone,code},"PO
 
 //用户名登录
 export const reqUserNameLogin = (name,pwd,captcha) => ajax(BASE+"/login_pwd",{name,pwd,captcha},"POST")
-//获取用户
+//获取用户用来维持登录
 export const reqUser = () => ajax(BASE+"/userinfo")
 //用户退出
 export const reqLoginOut=()=>ajax(BASE+"/logout")
@@ -45,3 +45,7 @@ export const reqShouyeData=()=> ajax('/shouye')
 //请求首页的所有数据
 export const reqShouyeQuanbuData = () =>ajax('/shouyeData')
 export const reqCategoryData = () => ajax('/category')
+
+export const reqShiwuData = () => ajax('/shiwu')
+
+

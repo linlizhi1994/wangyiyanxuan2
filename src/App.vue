@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-  <foodnav></foodnav>
+  <foodnav v-show="$route.meta.isShow"></foodnav>
   </div>
 </template>
 
@@ -12,6 +12,9 @@ export default {
   name: 'App',
   components: {
     foodnav
+  },
+  mounted(){
+    this.$store.dispatch("getUserId")
   }
 }
 </script>

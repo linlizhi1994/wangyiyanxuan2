@@ -19,10 +19,26 @@
 
       <div class="rightContent_wrap">
         <ul class="rightContent" >
-          <li v-for="(item,index) in cate.subCateList">
-           <img :src="item.bannerUrl">
-            <div>{{item.name}}</div>
+          <li class="item1" v-for="(item,index) in cate.subCateList" v-if="cate.type === 1" >
+            <div class="item3" >
+              <img :src="item.bannerUrl">
+              <div>{{item.name}}</div>
+            </div>
           </li>
+
+         <div class="item2" v-for="cat in cate.subCateList" v-if="cate.type === 0">
+            <div class="up" >
+              <div class="chuangpin">{{cat.name}}</div>
+              <ul class="jiaju">
+                <li v-for="item3 in cat.categoryList">
+                  <img :src="item3.wapBannerUrl">
+                  <div class="jiantao">{{item3.name}}</div>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+
          <!-- <li>
             <img src="./img/39c1c32ca2301ced934e35db33150637.png">
             <div>规划共和国工会</div>
@@ -95,7 +111,7 @@
             <img src="./img/39c1c32ca2301ced934e35db33150637.png">
             <div>规划共和国工会</div>
           </li>-->
-          <div class="imgDiv"><img src="./img/1d66a50452354fa28b045853c078cbe3.jpg"></div>
+          <div class="imgDiv" ><img :src="cate.wapBannerUrl"></div>
         </ul>
       </div>
     </div>
@@ -110,7 +126,8 @@
         name: "category",
       data(){
         return{
-          cate:{}
+          cate:{},
+
         }
       },
       mounted(){
@@ -119,8 +136,6 @@
               new BScroll('.leftContent_wrap',{
                 click:true
               })
-
-              console.log("scroll======+++")
 
               new BScroll('.rightContent_wrap',{
                 click:true
@@ -136,7 +151,6 @@
       methods:{
 
         handleC(category){
-
           this.cate = category
 
         },
@@ -257,18 +271,39 @@
           display flex
           flex-wrap wrap
           margin-left 0.3rem
-          li
+          .item1
             width 1.44rem
             height 2.16rem
             //background-color gray
             margin-right 0.42rem
             margin-bottom 0.42rem
-            div
-              text-align center
-              font-size 0.26rem
-            img
-              width 1.44rem
-              height 1.44rem
+            .item3
+              div
+                text-align center
+                font-size 0.26rem
+              img
+                width 1.44rem
+                height 1.44rem
+          .item2
+            margin-top 0.3rem
+            .up
+              .chuangpin
+                bottom-border-1px(gray)
+                width 5.28rem
+                height 0.5rem
+                margin-bottom 0.2rem
+              .jiaju
+                display flex
+                flex-wrap wrap
+                li
+                  width 1.44rem
+                  height 2.16rem
+                  margin-right 0.36rem
+                  img
+                    width 1.44rem
+                    height 1.44rem
+                    margin-bottom 0.2rem
+
 
 
 </style>

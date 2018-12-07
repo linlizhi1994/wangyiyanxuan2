@@ -14,7 +14,7 @@
       <div class="empty">
         <span class="iconfont icon-gouwuche logo"></span>
         <div class="addSome">去添加点什么吧</div>
-        <div class="btn">登录</div>
+        <div class="btn" @click="$router.replace('/personal')" v-if="!users._id">登录</div>
      </div>
   </div>
 
@@ -23,8 +23,11 @@
 </template>
 
 <script>
+  import {mapState} from "vuex"
     export default {
-
+      computed:{
+        ...mapState(['users'])
+      }
         }
 </script>
 

@@ -8,6 +8,7 @@ import store from './store/index'
 import "./mock/mock_server"
 
 Vue.config.productionTip = false
+Vue.store=store
 
 /* eslint-disable no-new */
 new Vue({
