@@ -28,7 +28,7 @@
             </div>
             <div>{{item.title}}</div>
             <div>{{item.subTitle}}</div>
-            <div><span></span>21.1k人看过</div>
+            <div><span></span>{{item.readCount|computeCount}}人看过</div>
           </div>
 
             <div class="divImg">
@@ -40,7 +40,7 @@
               <div class="headImg"><img :src="item.avatar">{{item.nickname}} </div>
               <div class="msg">{{item.title}}</div>
               <div class="imgDiv2"><img :src="item.picUrl"></div>
-              <div class="personSee">83.1k人看过</div>
+              <div class="personSee">{{item.readCount|computeCount}}人看过</div>
             </a>
           </div>
         </div>
@@ -67,6 +67,18 @@
     components:{
       headTop
     },
+      filters:{
+          computeCount(val){
+            var value = val.toString()
+            if(value.length <= 3){//当数值是 比如1299 时就显示1299
+              return value
+            }
+            if(value.length >= 6){//当数值是 比如440000 时 就显示44w
+              return (value/10000).toFixed(0)+'w'
+            }
+            return (val/1000).toFixed(1)+'k' //当数值是 比如66000 时 就显示66.0k
+          }
+      },
       mounted(){
       this.$store.dispatch('getShiwuData')
       },
