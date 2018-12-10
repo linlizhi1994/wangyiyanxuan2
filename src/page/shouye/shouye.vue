@@ -21,6 +21,20 @@
           <li>推荐</li>
           <li>推荐</li>
         </ul>
+
+        <span class="wrap_span">
+            <span class="upSpan" :class="{rote:isShow}" @click="handleisShow">
+              <span class="iconfont icon-iconfontjiantou inSpan"></span>
+            </span>
+        </span>
+
+        <div class="floatNav" v-show="isShow" >
+          <div class="pinDao">全部频道</div>
+          <ul class="ulNav">
+            <li v-for="(item,index) in shouyeData.cateList">{{item.name}}</li>
+
+          </ul>
+        </div>
        </div>
       <div class="content">
           <div class="swiper-container">
@@ -351,7 +365,7 @@
 
       </div>
     </div>
-
+    <div :class="{mask:isShow}" @click="handleisShow"></div>
   </div>
 
 </template>
@@ -365,6 +379,11 @@
   import {mapState} from 'vuex'
     export default {
           name: "shouye",
+      data(){
+            return{
+            isShow:false
+            }
+      },
       mounted(){
 
         this.$store.dispatch("getlunbotu")
@@ -372,7 +391,7 @@
         this.$store.dispatch('getShouyeData')
         new BScroll('.nav_wrap',{
            //scrollY:false,
-          //click:true,
+          click:true,
           scrollX:true,
 
         })
@@ -392,9 +411,14 @@
         })
       },
       computed:{
-        ...mapState(['lunbotuList','lunbotuUpData','users'])
+        ...mapState(['lunbotuList','lunbotuUpData','users',"shouyeData"])
       },
-
+      methods:{
+        handleisShow(){
+             this.isShow = !this.isShow
+            //document.querySelector(".inSpan").style.transform = "rotateZ(45deg)"
+           }
+       },
       watch:{
         lunbotuList(){
           this.$nextTick(()=>{
@@ -654,6 +678,55 @@
               background-color red
               transform translateX(-100%)
 
+      .wrap_span
+         text-align center
+         width 1.15rem
+         height 0.5rem
+         position fixed
+         top 0.9rem
+         right 0rem
+         z-index 2001
+         color gray
+         background-color #fff
+         line-height 0.5rem
+
+        .upSpan
+          //text-align center
+          //width 1.15rem
+          //height 0.5rem
+          position fixed
+          //top 0rem
+          right 0.4rem
+          z-index 2002
+          //color gray
+           //line-height 0.5rem
+          &.rote
+            transition all 0.5s
+            transform rotate(180deg)
+
+      .floatNav
+        width 100%
+        //height 1rem
+        background-color #fff
+        position fixed
+        top 0.88rem
+        z-index 2000
+        .ulNav
+          margin-top 0.4rem
+          display flex
+          flex-wrap wrap
+          li
+            padding 0.1rem 0
+            width 1.5rem
+            background-color #F4F4F4
+            margin-left 0.3rem
+            margin-bottom 0.38rem
+            text-align center
+        .pinDao
+            font-size 0.32rem
+            margin-top 0.1rem
+            margin-left 0.3rem
+
     .header_wrap
        font-size 14px
        width 100%
@@ -702,4 +775,11 @@
           border-radius 0.1rem
 
 
+    .mask
+      width 100%
+      height 100%
+      position fixed
+      top 0
+      z-index 90
+      background-color rgba(0,0,0,0.5)
 </style>

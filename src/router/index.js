@@ -6,7 +6,10 @@ import personal from '../page/personal/personal'
 import shiwu from '../page/shiwu/shiwu'
 import shopcart from '../page/shopcart/shopcart'
 import phoneLogin from "../page/phoneLogin/phoneLogin"
+import emailLogin from "../page/emailLogin/emailLogin"
 import alreadyLogin from '../page/alreadyLogin/alreadyLogin'
+import shiwuTuiJian from '../page/shiwu/shiwuTuiJian/shiwuTuiJian'
+import search from "../page/search/search"
 Vue.use(VueRouter)
 let router = new VueRouter({
   routes: [
@@ -25,21 +28,33 @@ let router = new VueRouter({
       }
     },
     {
+      path:'/search',
+      component:search,
+    },
+    {
       path:'/personal',
       component:personal,
-    /*  children:[
-        {
-          path:'/personal/phonelogin',
-          component:phoneLogin,
-        },
-      ]*/
     },
     {
       path:'/shiwu',
       component:shiwu,
       meta:{
         isShow:true
-      }
+      },
+      children:[
+        {
+          path:'/shiwu/shiwutuijian/:id',
+          component:shiwuTuiJian,
+          props:true,
+          meta:{
+            isShow:true
+          }
+        },
+         {
+           path:"",
+           redirect:"/shiwu/shiwutuijian/0",
+         },
+      ]
     },
     {
       path:'/shopcart',
@@ -51,6 +66,10 @@ let router = new VueRouter({
     {
       path:'/phonelogin',
       component:phoneLogin,
+    },
+    {
+      path:'/emaillogin',
+      component:emailLogin,
     },
     {
       path:'/alreadylogin',
@@ -71,7 +90,7 @@ router.beforeEach((to,from,next)=>{
       if(Vue.store.state.users._id){
         next('/alreadylogin')
       }else {
-        next('/phonelogin')
+        next()
       }
     }else {
       next()

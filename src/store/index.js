@@ -7,7 +7,10 @@ import {
   reqCategoryData,
   reqShiwuData,
   reqUser,
-  reqLoginOut
+  reqLoginOut,
+  reqShiwuTabList,
+  reqShwuData2,
+  reqSearch
 
 } from '../api/index'
 
@@ -17,23 +20,28 @@ let store = new Vuex.Store({
   state:{
     lunbotuList:[],
     lunbotuUpData:[],//轮播图下一个地方的数据
+    shouyeData:{},//首页的全部数据
     categoruData:[],//分类组件的数据
     shiwuData:[],
-    users:{}
-
+    users:{},
+    shiwuTabList:[],
+    shiwuData2:[],//识物组件 达人的数据 因为没有识物组件的完整数据 所以一个个的请求它的子路由的数据
+    searchList:[]
   },
 
   getters:{
     /*把shiwuData数组中的每一对象取出来，每一个对象里都有一个topics数组，遍历它 把topics数组中的每一个元素放入到新数组中*/
     newArr(state){
       let arr1=[]
+      let arr3=[]
       let arr = state.shiwuData
       arr.forEach((val)=>{
         val.topics.forEach((val2)=>{
         arr1.push(val2)
         })
       })
-      return arr1
+       arr3.push(arr1,state.shiwuData2)
+      return arr3//把识物 组件 中的 推荐 和 达人的数据放入到 一个数组中
     },
     /*得到shiwu组件中顶部的图片的方法*/
     shiwuUpImg(state){
@@ -51,6 +59,7 @@ let store = new Vuex.Store({
 
     receive_shouyedata(state,{shouyeData}){
       state.lunbotuUpData = shouyeData.kingKongModule.kingKongList
+      state.shouyeData = shouyeData
     },
 
     receive_categoryData(state,{categoryData}){
@@ -60,24 +69,44 @@ let store = new Vuex.Store({
     receive_shiwudata(state,{shiwuData}){
       state.shiwuData = shiwuData
     },
-
+    receive_shiwudata2(state,{shiwuData2}){
+      state.shiwuData2 = shiwuData2
+    },
     receive_users(state,{users}){
       state.users=users
     },
 
     receive_out(state){
       state.users = {}
+    },
+
+    receive_shiwutablist(state,{tablist}){
+      state.shiwuTabList = tablist
+    },
+
+    getSearchContent(state,{searchList}){
+      state.searchList = searchList
     }
+
   },
 
   actions:{
+   async getSearch(store,{keywordPrefix}){
+     let result = await reqSearch(keywordPrefix)
+     if(result.code === "200"){
+       const searchList = result.data
+       store.commit('getSearchContent',{searchList})
+       console.log("-------------",searchList)
+       console.log(keywordPrefix)
+     }
+    },
 
     async getlunbotu(store){
       const result = await reqShouyeData()
-        if(result.code === 0){
+
           const lunbotulist=result.data
           store.commit('receive_lunbotulist',{lunbotulist})
-        }
+
     },
 
     async getShouyeData(store){
@@ -105,6 +134,14 @@ let store = new Vuex.Store({
       }
     },
 
+
+    async getShiwuData2(store){
+      const result1 = await reqShwuData2()
+      if(result1.code === 0){
+        const shiwuData2 = result1.data
+        store.commit('receive_shiwudata2',{shiwuData2})
+      }
+    },
     getuser(store,users){
       store.commit('receive_users',{users})
     },
@@ -122,7 +159,16 @@ let store = new Vuex.Store({
      if(result.code === 0){
         store.commit('receive_out')
      }
-    }
+    },
+
+    //获取识物头部下面的tab列表
+    async getShiwuTabList(store){
+      const result = await reqShiwuTabList()
+      //if(result.code === "200"){
+        const tablist = result.data
+        store.commit('receive_shiwutablist',{tablist})
+     // }
+      }
   }
 })
 

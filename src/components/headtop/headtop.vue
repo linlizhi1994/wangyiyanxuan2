@@ -3,7 +3,7 @@
       <div class="head">
         <span class="iconfont icon-home" @click="handleC"></span>
         <span class="headContent">{{title}}</span>
-        <span class="iconfont icon-search"></span>
+        <span class="iconfont icon-search" @click="handleSearch"></span>
         <span class="iconfont icon-gouwuche"></span>
       </div>
 
@@ -17,8 +17,12 @@
       methods:{
           handleC(){
             this.$router.replace('/shouye')
-          }
-      }
+          },
+        handleSearch(){
+            this.$router.replace('/search')
+        }
+
+       }
     }
 </script>
 

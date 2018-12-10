@@ -9,7 +9,7 @@
     <div class="emailLogin">
       <!--<i class="iconfont icon-icon-email"></i>-->
       <slot name="email"></slot>
-      <span>{{emailMsg}}</span>
+      <span @click="handleD">{{emailMsg}}</span>
     </div>
 
     <!--<div class="register">
@@ -28,11 +28,18 @@
           handleC(){
             if(this.phoneMsg === '登录'){
               this.loginEvent()
-            }else {
+            }else if(this.phoneMsg === '手机号登录'){
               this.$router.replace('/phonelogin')
             }
-
+          },
+        handleD(){
+            if(this.emailMsg === '其他登录方式'){
+              this.$router.replace('/personal')
+            }
+          if(this.emailMsg === '邮箱登录'){
+            this.$router.replace('/emaillogin')
           }
+        }
       }
     }
 </script>

@@ -36,9 +36,6 @@
         <span @click="goTo('/personal')">个人</span>
       </a>
 
-
-
-
     </div>
 </template>
 
@@ -57,7 +54,7 @@
   .footer_guide
 
     position fixed
-    z-index 100
+    z-index 10
     left 0
     right 0
     bottom 0

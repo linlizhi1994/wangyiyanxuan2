@@ -10,8 +10,8 @@
     <div class="content">
       <div class="leftContent_wrap">
         <ul class="leftContent">
-          <li v-for="(category,index) in categoruData" :key="category.id" @click="handleC(category)">
-            {{category.name}}
+          <li v-for="(category,index) in categoruData" :key="category.id" @click="handleC(category)" ref="leftLi">
+            <a @click="handleIsChang(index)" class="abiaoqian">{{category.name}}</a>
           </li>
           <div class="leftLine"></div>
         </ul>
@@ -19,7 +19,7 @@
 
       <div class="rightContent_wrap">
         <ul class="rightContent" >
-          <li class="item1" v-for="(item,index) in cate.subCateList" v-if="cate.type === 1" >
+          <li class="item1" v-for="(item,index) in cate.subCateList" v-if="cate.type === 1" :key="index">
             <div class="item3" >
               <img :src="item.bannerUrl">
               <div>{{item.name}}</div>
@@ -155,6 +155,17 @@
 
         },
 
+        handleIsChang(i){
+            //console.log(i)
+           document.querySelectorAll('.abiaoqian').forEach((val)=>{
+            val.classList.remove("on")
+            val.style.color = 'black'
+          })
+          let aNode = document.querySelectorAll('.abiaoqian')[i]
+                aNode.classList.add("on")
+                aNode.style.color = "red"
+        }
+
           //动态的计算页面中content的高度。让它的高度随着设备的高度改变而改变，比多说iphonex的高度会高一点
         /*  computedHeight(){
             let contentDiv=document.querySelector(".content")
@@ -234,11 +245,27 @@
           background-color #fff
           position relative
           li
-            width 1.62rem
-            height 0.5rem
-            line-height 0.5rem
+            //width 1.62rem
+            //height 0.5rem
+            //line-height 0.5rem
             margin-bottom 0.36rem
-            text-align center
+            //text-align center
+            a
+              display block
+              width 1.62rem
+              height 0.5rem
+              line-height 0.5rem
+              text-align center
+              color black
+              position relative
+              &.on
+                &:after
+                  content ''
+                  position absolute
+                  left 0
+                  width 0.04rem
+                  height 100%
+                  background-color red
           .leftLine
             content ''
             position absolute

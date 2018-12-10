@@ -14,7 +14,8 @@ export default {
     foodnav
   },
   mounted(){
-    this.$store.dispatch("getUserId")
+      //this.$store.dispatch("getUserId")
+    //this.$store.dispatch('getShiwuTabList')
   }
 }
 </script>

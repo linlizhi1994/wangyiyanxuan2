@@ -91,6 +91,7 @@
           //height 0.94rem
           margin-bottom 0.15rem
           margin-left 0.6rem
+          outline none
       .inputBox2
         position relative
 
@@ -102,6 +103,7 @@
           border 1px solid red
           border-radius 0.1rem
         input
+          outline none
           //bottom-border-1px(gray)
           border-bottom 1px solid gray
           width 5.7rem

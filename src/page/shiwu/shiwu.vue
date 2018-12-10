@@ -5,69 +5,38 @@
       <div class="content">
         <div class="headUp">
           <ul class="nav">
-            <li class="on">推荐</li>
-            <li>大人</li>
-            <li>伤心</li>
-            <li>哈哈</li>
-            <li>HOME</li>
+            <li class="on" v-for="(item,index) in shiwuTabList" :key="index">
+              <router-link :to="`/shiwu/shiwutuijian/${index}`">{{item.tabName}}</router-link>
+            </li>
           </ul>
         </div>
 
-        <div class="imgDiv" v-if="shiwuUpImg">
-          <img :src="shiwuUpImg.ad.picUrl">
-        </div>
 
-        <div class="item_wrap" v-for="item in newArr" >
-          <div class="item">
-            <!--显示 组 的a标签-->
-          <a class="itema" v-if="item.type === 1">
-          <div class="info">
-            <div class="items">
-              <span class="imgSpan"><img :src="item.avatar"></span>
-              <span class="msg">{{item.nickname}}</span>
-            </div>
-            <div>{{item.title}}</div>
-            <div>{{item.subTitle}}</div>
-            <div><span></span>{{item.readCount|computeCount}}人看过</div>
-          </div>
 
-            <div class="divImg">
-              <img :src="item.picUrl">
-            </div>
-          </a>
-            <!--显示 选妹 a标签-->
-          <a class="changeIn" v-if="item.type === 0">
-              <div class="headImg"><img :src="item.avatar">{{item.nickname}} </div>
-              <div class="msg">{{item.title}}</div>
-              <div class="imgDiv2"><img :src="item.picUrl"></div>
-              <div class="personSee">{{item.readCount|computeCount}}人看过</div>
-            </a>
-          </div>
-        </div>
-          <!-- 显示选妹的div 最后把他合并到显示服装组的div中去-->
-       <!--<div class="change" >
-          <a class="changeIn">
-            <div class="headImg"><img src="./img/c78fd2991f97593e17cdb6fdad5044b1.png">选妹</div>
-            <div class="msg">是的范德萨范德萨发的似懂非懂</div>
-            <div class="imgDiv2"><img src="./img/b7db4d98e47a94adda8b4d61bc5f4af0.jpg"></div>
-            <div class="personSee">83.1k人看过</div>
-          </a>
-        </div>-->
 
       </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+
   import {mapState,mapGetters} from "vuex"
   import headTop from "../../components/headtop/headtop"
     export default {
 
+
+      computed:{
+        /* ...mapState(['shiwuData','shiwuTabList']),
+           ...mapGetters(['newArr','shiwuUpImg'])*/
+        ...mapState(['shiwuTabList'])
+      },
     components:{
       headTop
     },
-      filters:{
+
+    /*  filters:{
           computeCount(val){
             var value = val.toString()
             if(value.length <= 3){//当数值是 比如1299 时就显示1299
@@ -78,15 +47,14 @@
             }
             return (val/1000).toFixed(1)+'k' //当数值是 比如66000 时 就显示66.0k
           }
-      },
+      },*/
       mounted(){
       this.$store.dispatch('getShiwuData')
+        this.$store.dispatch('getShiwuData2')
+        this.$store.dispatch('getShiwuTabList')
       },
 
-      computed:{
-        ...mapState(['shiwuData']),
-          ...mapGetters(['newArr','shiwuUpImg'])
-      },
+
     }
 </script>
 
@@ -107,8 +75,8 @@
         height 0.7rem
         .nav
           bottom-border-1px(gray)
-          justify-content space-around
-          display flex
+          //justify-content space-around
+          //display flex
           width 100%
           height 0.7rem
           background-color #fff
@@ -116,18 +84,26 @@
           position fixed
           top 0.88rem
           z-index 200
+          display inline-block
+          white-space nowrap
           li
+            display inline-block
             position relative
-            &.on
-              &:after
-                content ''
-                position absolute
-                width 100%
-                height 0.04rem
-                background-color red
-                bottom 0.03rem
-                z-index 100
-                transform translateX(-100%)
+            a
+              padding 0 0.4rem
+              &.router-link-active
+                color red
+                &:after
+                  content ''
+                  position absolute
+                  left 50%
+                  bottom 0.03rem
+                  width 0.7rem
+                  height 0.04rem
+                  transform translateX(-50%)
+                  //z-index 300
+                  background-color red
+
 
 
       .imgDiv
@@ -182,27 +158,6 @@
             .personSee
               margin-left 0.3rem
 
-
-      .change
-        background-color #fff
-        margin-top 0.3rem
-        .changeIn
-          .headImg
-            img
-              width 0.57rem
-              height 0.57rem
-              margin-left 0.3rem
-              border-radius 50%
-          .imgDiv2
-            margin-left 0.3rem
-            img
-              width 6.9rem
-              height 3.72rem
-
-          .msg
-            margin-left 0.3rem
-          .personSee
-            margin-left 0.3rem
 
 
 </style>

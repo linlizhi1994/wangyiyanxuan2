@@ -4,6 +4,7 @@
  */
 import ajax from './ajax'
 
+
 // const BASE = 'http://localhost:5000'
 const BASE = '/api'
 
@@ -48,4 +49,10 @@ export const reqCategoryData = () => ajax('/category')
 
 export const reqShiwuData = () => ajax('/shiwu')
 
+//export const reqShiwuTabList = () => ajax('/shiwutab')
+export const reqShiwuTabList = () => ajax("/163"+"/topic/v1/find/getTabs.json")
 
+export const reqShwuData2 = () =>ajax('/shiwuData2')
+
+//搜索的接口
+export const reqSearch = (keywordPrefix) => ajax("/163" + "/xhr/search/searchAutoComplete.json",{keywordPrefix},"POST")
