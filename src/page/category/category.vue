@@ -10,8 +10,8 @@
     <div class="content">
       <div class="leftContent_wrap">
         <ul class="leftContent">
-          <li v-for="(category,index) in categoruData" :key="category.id" @click="handleC(category)" ref="leftLi">
-            <a @click="handleIsChang(index)" class="abiaoqian">{{category.name}}</a>
+          <li v-for="(category,index) in categoruData" :key="category.id" @click="handleC(category,index)" ref="leftLi">
+            <a class="abiaoqian" :class="currentIndex === index?'on':''">{{category.name}}</a>
           </li>
           <div class="leftLine"></div>
         </ul>
@@ -19,12 +19,16 @@
 
       <div class="rightContent_wrap">
         <ul class="rightContent" >
+
+
           <li class="item1" v-for="(item,index) in cate.subCateList" v-if="cate.type === 1" :key="index">
             <div class="item3" >
               <img :src="item.bannerUrl">
               <div>{{item.name}}</div>
             </div>
           </li>
+
+
 
          <div class="item2" v-for="cat in cate.subCateList" v-if="cate.type === 0">
             <div class="up" >
@@ -126,12 +130,26 @@
         name: "category",
       data(){
         return{
-          cate:{},
+          cate:{},//当前点击左边列表 对应的对象 用来显示左边的内容的
+          currentIndex:0
 
         }
       },
       mounted(){
+       /*   this.categoruData.forEach((item)=>{
+
+          })*/
+          //this.cate =this.categoruData[0]
+
           this.$store.dispatch("getCategoryData",()=>{
+            //console.log(this.categoruData[0])
+
+            this.computedHeight()//动态的计算content的高度
+
+
+              this.cate =this.categoruData[0] //因为当点击左边的列表时，右边的内容才会有展示 所以 在数据获取后先赋值给cate 让一加载进来就显示右边的内容
+
+
             this.$nextTick(()=>{
               new BScroll('.leftContent_wrap',{
                 click:true
@@ -150,28 +168,19 @@
       },
       methods:{
 
-        handleC(category){
+        handleC(category,index){
           this.cate = category
-
+          this.currentIndex =index
         },
 
-        handleIsChang(i){
-            //console.log(i)
-           document.querySelectorAll('.abiaoqian').forEach((val)=>{
-            val.classList.remove("on")
-            val.style.color = 'black'
-          })
-          let aNode = document.querySelectorAll('.abiaoqian')[i]
-                aNode.classList.add("on")
-                aNode.style.color = "red"
-        }
+
 
           //动态的计算页面中content的高度。让它的高度随着设备的高度改变而改变，比多说iphonex的高度会高一点
-        /*  computedHeight(){
+          computedHeight(){
             let contentDiv=document.querySelector(".content")
             let height = (window.innerHeight || document.documentElement.clientHeight)+'px'
             contentDiv.style.height = height
-          }*/
+          }
       },
     /*  watch:{
         categoruData(){
@@ -232,13 +241,13 @@
 
     .content
       width 100%
-      height 11.45rem
+      //height 11.45rem
       display flex
       //background-color hotpink
       padding-top 0.88rem
       padding-bottom 1rem
       //justify-content space-between
-      overflow hidden//给content设置overflow hidden 还有设置固定的高度 禁止默认的滚动条
+      //overflow hidden//给content设置overflow hidden 还有设置固定的高度 禁止默认的滚动条
       .leftContent_wrap
         //background-color #7e8c8d
         .leftContent
@@ -259,6 +268,7 @@
               color black
               position relative
               &.on
+                color red
                 &:after
                   content ''
                   position absolute
